@@ -1,0 +1,120 @@
+﻿@using SinavSorusu11C.Models
+@model AnasayfaViewModel
+<div class="container">
+    <!-- Slider ve Kategori menüsü bölümü-->
+    <div class="row mb-5">
+        <div class="col-lg-3 mb-3 mb-lg-0">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="list-group">
+                        <a href="/main/index" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            Tüm Haberler <span class="badge badge-dark">@Fabrika.Haberler.Count()</span>
+                        </a>
+                        @if (ViewBag.kategoriId == null)
+                        {
+                            foreach (var kategori in Model.Kategoriler)
+                            {
+                                <a href="/main/index/@(kategori.Id)" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    @kategori.Ad <span class="badge badge-@(kategori.Renk)">@Model.Haberler.Where(h => h.KategoriId == kategori.Id).ToList().Count()</span>
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            foreach (var kategori in Model.Kategoriler)
+                            {
+                                if (kategori.Ad == ViewBag.kategoriAd)
+                                {
+                                    <a href="/main/index/@(kategori.Id)" class="active list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        @kategori.Ad <span class="badge badge-@(kategori.Renk)">@Fabrika.Haberler.Where(h => h.KategoriId == kategori.Id).ToList().Count()</span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="/main/index/@(kategori.Id)" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        @kategori.Ad <span class="badge badge-@(kategori.Renk)">@Fabrika.Haberler.Where(h => h.KategoriId == kategori.Id).ToList().Count()</span>
+                                    </a>
+                                }
+
+                            }
+                        }
+
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="carousel slide" id="slider1" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item">
+                        <img src="/images/slider/muzik1.jpg" class="img-fluid" alt="">
+                        <div class="carousel-caption d-none d-lg-block">
+                            <h3>Slider One</h3>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, nesciunt.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item active">
+                        <img src="/images/slider/muzik2.jpg" class="img-fluid" alt="">
+                        <div class="carousel-caption d-none d-lg-block">
+                            <h3>Slider Two</h3>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, nesciunt.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/slider/muzik3.jpg" class="img-fluid" alt="">
+                        <div class="carousel-caption d-none d-lg-block">
+                            <h3>Slider Three</h3>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, nesciunt.</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="#slider1" class="carousel-control-prev" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a href="#slider1" class="carousel-control-next" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </a>
+
+                <ul class="carousel-indicators">
+                    <li class="active" data-target="#slider1" data-slide-to="0"></li>
+                    <li data-target="#slider1" data-slide-to="1"></li>
+                    <li data-target="#slider1" data-slide-to="2"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blogs -->
+
+    <div class="row mb-5">
+        <div class="col-lg-12">
+            @if (ViewBag.kategoriAd != null)
+            {
+                <h3 class="display-4 text-center mb-4">@ViewBag.kategoriAd Haberleri</h3>
+            }
+            else
+            {
+                <h3 class="display-4 text-center mb-4">Tüm Haberler</h3>
+            }
+        </div>
+        <div class="w-100"></div>
+        @foreach (var haber in Model.Haberler)
+        {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card">
+                    <img src="/images/@(haber.Resim)" alt="" class="card-img-top">
+                    <div class="card-body">
+                        <h4 class="card-title">@haber.Baslik</h4>
+                        <h6>@haber.Tarih.ToShortDateString()</h6>
+                        <p class="card-text">@haber.Aciklama...</p>
+                        <a href="" class="btn btn-@(Model.Kategoriler.FirstOrDefault(k=>k.Id==haber.KategoriId).Renk)">Devamını Oku</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+</div>
